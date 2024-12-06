@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Transformer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        input {
+            padding: 10px;
+            width: 60%;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Link Transformer</h1>
+    <p>Enter a URL to transform:</p>
+    <input type="text" id="inputUrl" placeholder="Enter the URL here">
+    <button onclick="transformAndCopyUrl()">Transform & Copy</button>
+    <div class="output" id="output"></div>
+
+    <script>
+        function transformAndCopyUrl() {
+            const inputUrl = document.getElementById('inputUrl').value;
+            try {
+                // Parse the input URL and extract the path
+                const url = new URL(inputUrl);
+                const fullPath = url.pathname; // Extracts the path after the domain
+                const trimmedPath = fullPath.replace("/web", ""); // Optional: remove "/web" if needed
+                const outputUrl = "/content/dam/country" + trimmedPath.replace(".html", "") + "/index";
+                
+                // Copy the output URL to the clipboard
+                navigator.clipboard.writeText(outputUrl).then(() => {
+                    document.getElementById('output').innerText = `Copied to clipboard: ${outputUrl}`;
+                }).catch(err => {
+                    document.getElementById('output').innerText = "Failed to copy to clipboard.";
+                    console.error("Clipboard error:", err);
+                });
+            } catch (error) {
+                document.getElementById('output').innerText = "Invalid URL format. Please enter a valid URL.";
+            }
+        }
+    </script>
+</body>
+</html>
